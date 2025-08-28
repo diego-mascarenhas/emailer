@@ -1,8 +1,8 @@
 {
-    "name": "diego-mascarenhas/emailer",
+    "name": "idoneo/emailer",
     "description": "Professional email marketing package with maximum deliverability.",
     "keywords": [
-        "diego-mascarenhas",
+        "idoneo",
         "laravel",
         "emailer",
         "email-marketing",
@@ -17,7 +17,7 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "diego-mascarenhas",
+            "name": "idoneo",
             "email": "diego.mascarenhas@icloud.com",
             "role": "Developer"
         }
