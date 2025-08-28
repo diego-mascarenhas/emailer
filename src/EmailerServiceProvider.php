@@ -26,7 +26,7 @@ class EmailerServiceProvider extends PackageServiceProvider
                 '2024_01_01_000003_create_emailer_message_deliveries_table',
                 '2024_01_01_000004_create_emailer_message_delivery_tracking_table',
                 '2024_01_01_000005_create_emailer_message_delivery_links_table',
-                '2024_01_01_000006_create_emailer_message_delivery_stats_table'
+                '2024_01_01_000006_create_emailer_message_delivery_stats_table',
             ])
             ->hasCommands([
                 SendPendingMessagesCommand::class,
