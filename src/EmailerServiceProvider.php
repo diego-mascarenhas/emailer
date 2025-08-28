@@ -2,10 +2,10 @@
 
 namespace idoneo\Emailer;
 
-use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
 use idoneo\Emailer\Console\Commands\SendPendingMessagesCommand;
 use Illuminate\Support\Facades\Route;
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class EmailerServiceProvider extends PackageServiceProvider
 {
@@ -26,7 +26,7 @@ class EmailerServiceProvider extends PackageServiceProvider
                 'create_emailer_message_deliveries_table',
                 'create_emailer_message_delivery_tracking_table',
                 'create_emailer_message_delivery_links_table',
-                'create_emailer_message_delivery_stats_table'
+                'create_emailer_message_delivery_stats_table',
             ])
             ->hasCommands([
                 SendPendingMessagesCommand::class,
@@ -61,7 +61,7 @@ class EmailerServiceProvider extends PackageServiceProvider
     {
         // Register any additional bindings if needed
         $this->app->bind('emailer', function () {
-            return new Emailer();
+            return new Emailer;
         });
     }
 }

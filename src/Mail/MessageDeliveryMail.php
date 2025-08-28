@@ -66,7 +66,7 @@ class MessageDeliveryMail extends Mailable implements ShouldQueue
         // First check if team has custom from address
         if ($this->delivery->team && method_exists($this->delivery->team, 'getOutgoingEmailConfig')) {
             $config = $this->delivery->team->getOutgoingEmailConfig();
-            if (!empty($config['from_address'])) {
+            if (! empty($config['from_address'])) {
                 return $config['from_address'];
             }
         }
@@ -83,7 +83,7 @@ class MessageDeliveryMail extends Mailable implements ShouldQueue
         // First check if team has custom from name
         if ($this->delivery->team && method_exists($this->delivery->team, 'getOutgoingEmailConfig')) {
             $config = $this->delivery->team->getOutgoingEmailConfig();
-            if (!empty($config['from_name'])) {
+            if (! empty($config['from_name'])) {
                 return $config['from_name'];
             }
         }

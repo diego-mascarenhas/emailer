@@ -3,10 +3,9 @@
 namespace idoneo\Emailer\Http\Controllers;
 
 use idoneo\Emailer\Models\MessageDelivery;
-use idoneo\Emailer\Models\MessageDeliveryTracking;
 use idoneo\Emailer\Models\MessageDeliveryLink;
+use idoneo\Emailer\Models\MessageDeliveryTracking;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 
 class EmailerTrackingController

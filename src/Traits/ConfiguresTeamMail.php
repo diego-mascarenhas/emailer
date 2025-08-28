@@ -26,17 +26,17 @@ trait ConfiguresTeamMail
         $teamEmailConfig = method_exists($team, 'getOutgoingEmailConfig') ? $team->getOutgoingEmailConfig() : [];
 
         // Set team's from_name and from_address if available
-        if (!empty($teamEmailConfig['from_name'])) {
+        if (! empty($teamEmailConfig['from_name'])) {
             Config::set('mail.from.name', $teamEmailConfig['from_name']);
         }
-        if (!empty($teamEmailConfig['from_address'])) {
+        if (! empty($teamEmailConfig['from_address'])) {
             Config::set('mail.from.address', $teamEmailConfig['from_address']);
         }
 
         Log::info('🔧 Emailer ConfiguresTeamMail: Applied team email config', [
             'team_id' => $team->id,
-            'team_has_from_name' => !empty($teamEmailConfig['from_name']),
-            'team_has_from_address' => !empty($teamEmailConfig['from_address']),
+            'team_has_from_name' => ! empty($teamEmailConfig['from_name']),
+            'team_has_from_address' => ! empty($teamEmailConfig['from_address']),
             'final_from_name' => config('mail.from.name'),
             'final_from_address' => config('mail.from.address'),
         ]);
@@ -46,7 +46,7 @@ trait ConfiguresTeamMail
             Log::info('🚀 Emailer: Using Mailgun API with team email config', [
                 'team_id' => $team->id,
                 'mailgun_domain' => config('services.mailgun.domain'),
-                'mailgun_configured' => !empty(config('services.mailgun.secret')),
+                'mailgun_configured' => ! empty(config('services.mailgun.secret')),
                 'from_name' => config('mail.from.name'),
                 'from_address' => config('mail.from.address'),
             ]);
@@ -67,16 +67,30 @@ trait ConfiguresTeamMail
                 'smtp_encryption' => $config['encryption'] ?? null,
                 'from_address' => $config['from_address'] ?? null,
                 'from_name' => $config['from_name'] ?? null,
-                'password_configured' => !empty($config['password']),
+                'password_configured' => ! empty($config['password']),
             ]);
 
-            if (isset($config['host'])) Config::set('mail.mailers.smtp.host', $config['host']);
-            if (isset($config['port'])) Config::set('mail.mailers.smtp.port', $config['port']);
-            if (isset($config['username'])) Config::set('mail.mailers.smtp.username', $config['username']);
-            if (isset($config['password'])) Config::set('mail.mailers.smtp.password', $config['password']);
-            if (isset($config['encryption'])) Config::set('mail.mailers.smtp.encryption', $config['encryption']);
-            if (isset($config['from_address'])) Config::set('mail.from.address', $config['from_address']);
-            if (isset($config['from_name'])) Config::set('mail.from.name', $config['from_name']);
+            if (isset($config['host'])) {
+                Config::set('mail.mailers.smtp.host', $config['host']);
+            }
+            if (isset($config['port'])) {
+                Config::set('mail.mailers.smtp.port', $config['port']);
+            }
+            if (isset($config['username'])) {
+                Config::set('mail.mailers.smtp.username', $config['username']);
+            }
+            if (isset($config['password'])) {
+                Config::set('mail.mailers.smtp.password', $config['password']);
+            }
+            if (isset($config['encryption'])) {
+                Config::set('mail.mailers.smtp.encryption', $config['encryption']);
+            }
+            if (isset($config['from_address'])) {
+                Config::set('mail.from.address', $config['from_address']);
+            }
+            if (isset($config['from_name'])) {
+                Config::set('mail.from.name', $config['from_name']);
+            }
 
             // No advertising footer for teams with custom SMTP
             Config::set('emailer.mail_advertising_footer', '');
@@ -119,6 +133,7 @@ trait ConfiguresTeamMail
     {
         if (method_exists($team, 'hasOutgoingEmailConfig') && $team->hasOutgoingEmailConfig()) {
             $config = $team->getOutgoingEmailConfig();
+
             return $config['from_address'] ?? config('mail.from.address');
         }
 
@@ -133,6 +148,7 @@ trait ConfiguresTeamMail
     {
         if (method_exists($team, 'hasOutgoingEmailConfig') && $team->hasOutgoingEmailConfig()) {
             $config = $team->getOutgoingEmailConfig();
+
             return $config['from_name'] ?? config('mail.from.name');
         }
 

@@ -2,9 +2,9 @@
 
 namespace idoneo\Emailer\Tests;
 
+use idoneo\Emailer\EmailerServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use idoneo\Emailer\EmailerServiceProvider;
 
 class TestCase extends Orchestra
 {

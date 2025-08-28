@@ -87,7 +87,7 @@ class SendMessageCampaignJob implements ShouldQueue
             // Check if contact exists and has email or if we have recipient_email
             $recipientEmail = $this->messageDelivery->contact->email ?? $this->messageDelivery->recipient_email;
 
-            if (!$recipientEmail) {
+            if (! $recipientEmail) {
                 Log::warning('Message delivery skipped: No recipient email', [
                     'delivery_id' => $this->messageDelivery->id,
                     'contact_id' => $this->messageDelivery->contact_id,
@@ -98,7 +98,7 @@ class SendMessageCampaignJob implements ShouldQueue
             }
 
             // Update recipient email if not set
-            if (!$this->messageDelivery->recipient_email && $recipientEmail) {
+            if (! $this->messageDelivery->recipient_email && $recipientEmail) {
                 $this->messageDelivery->update(['recipient_email' => $recipientEmail]);
             }
 
@@ -148,9 +148,10 @@ class SendMessageCampaignJob implements ShouldQueue
      */
     protected function sendViaMailgun()
     {
-        if (!class_exists('\Mailgun\Mailgun')) {
+        if (! class_exists('\Mailgun\Mailgun')) {
             Log::warning('Mailgun SDK not available, falling back to SMTP');
             $this->sendViaSmtp();
+
             return;
         }
 
@@ -166,13 +167,13 @@ class SendMessageCampaignJob implements ShouldQueue
                 'delivery_id' => $this->messageDelivery->id,
                 'message_name' => $this->messageDelivery->message->name,
                 'rendered_content_length' => strlen($renderedContent ?? ''),
-                'has_html_content' => !empty($renderedContent),
-                'from_config' => config('mail.from.name') . ' <' . config('mail.from.address') . '>',
+                'has_html_content' => ! empty($renderedContent),
+                'from_config' => config('mail.from.name').' <'.config('mail.from.address').'>',
             ]);
 
             // Send via Mailgun SDK with tracking enabled
             $result = $mgClient->messages()->send($domain, [
-                'from' => config('mail.from.name') . ' <' . config('mail.from.address') . '>',
+                'from' => config('mail.from.name').' <'.config('mail.from.address').'>',
                 'to' => $this->messageDelivery->recipient_email,
                 'subject' => $this->messageDelivery->message->subject ?? $this->messageDelivery->message->name,
                 'html' => $renderedContent,
@@ -243,7 +244,7 @@ class SendMessageCampaignJob implements ShouldQueue
             'delivery_id' => $this->messageDelivery->id,
             'team_id' => $this->messageDelivery->team->id ?? null,
             'team_name' => $this->messageDelivery->team->name ?? null,
-            'team_has_custom_smtp' => method_exists($this->messageDelivery->team ?? new \stdClass(), 'hasOutgoingEmailConfig') ?
+            'team_has_custom_smtp' => method_exists($this->messageDelivery->team ?? new \stdClass, 'hasOutgoingEmailConfig') ?
                 $this->messageDelivery->team->hasOutgoingEmailConfig() : false,
             'before_config_host' => config('mail.mailers.smtp.host'),
             'before_config_username' => config('mail.mailers.smtp.username'),

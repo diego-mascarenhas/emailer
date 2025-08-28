@@ -63,7 +63,7 @@ class Emailer
     /**
      * Send a test email
      */
-    public function sendTest(Message $message, string $email, string $name = null): bool
+    public function sendTest(Message $message, string $email, ?string $name = null): bool
     {
         try {
             // Create a temporary delivery for testing
@@ -140,7 +140,7 @@ class Emailer
                 ->where('contact_id', $contact->id)
                 ->first();
 
-            if (!$existingDelivery) {
+            if (! $existingDelivery) {
                 // Schedule with configurable intervals from config
                 $baseMinutes = config('emailer.delays.base_minutes', 5);
                 $maxRandomSeconds = config('emailer.delays.random_seconds', 120);

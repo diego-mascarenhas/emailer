@@ -43,6 +43,7 @@ class SendPendingMessagesCommand extends Command
 
         if ($totalPending === 0) {
             $this->info('✅ No pending message deliveries found.');
+
             return 0;
         }
 
@@ -64,6 +65,7 @@ class SendPendingMessagesCommand extends Command
                 if ($validationResult !== true) {
                     $this->warn("⚠️  Skipped delivery ID {$delivery->id}: {$validationResult}");
                     $skipped++;
+
                     continue;
                 }
 
@@ -93,9 +95,9 @@ class SendPendingMessagesCommand extends Command
                 }
 
             } catch (\Exception $e) {
-                $this->error("❌ Error processing delivery ID {$delivery->id}: " . $e->getMessage());
+                $this->error("❌ Error processing delivery ID {$delivery->id}: ".$e->getMessage());
 
-                if (!$dryRun) {
+                if (! $dryRun) {
                     $delivery->markAsError();
                 }
 
@@ -110,13 +112,13 @@ class SendPendingMessagesCommand extends Command
 
         // Summary
         $this->newLine();
-        $this->info("📊 Summary:");
+        $this->info('📊 Summary:');
         $this->info("   ✅ Successfully processed: {$sent}");
         $this->info("   ⚠️  Skipped: {$skipped}");
         $this->info("   ❌ Errors: {$errors}");
 
-        if (!$dryRun && $sent > 0) {
-            $this->info("🕐 Total estimated delivery time: " . $this->formatDuration($this->calculateDelay($sent - 1)));
+        if (! $dryRun && $sent > 0) {
+            $this->info('🕐 Total estimated delivery time: '.$this->formatDuration($this->calculateDelay($sent - 1)));
         }
 
         return 0;
@@ -129,12 +131,12 @@ class SendPendingMessagesCommand extends Command
     {
         // Check if contact exists or we have recipient email
         $recipientEmail = $delivery->contact->email ?? $delivery->recipient_email;
-        if (!$recipientEmail) {
+        if (! $recipientEmail) {
             return 'No recipient email available';
         }
 
         // Check if message exists and is active
-        if (!$delivery->message) {
+        if (! $delivery->message) {
             return 'Message not found';
         }
 
@@ -144,7 +146,7 @@ class SendPendingMessagesCommand extends Command
 
         // Check if delivery is in future (scheduled)
         if ($delivery->sent_at && $delivery->sent_at->isFuture()) {
-            return 'Delivery is scheduled for future: ' . $delivery->sent_at->format('Y-m-d H:i:s');
+            return 'Delivery is scheduled for future: '.$delivery->sent_at->format('Y-m-d H:i:s');
         }
 
         return true;
@@ -174,9 +176,15 @@ class SendPendingMessagesCommand extends Command
         $seconds = $seconds % 60;
 
         $parts = [];
-        if ($hours > 0) $parts[] = "{$hours}h";
-        if ($minutes > 0) $parts[] = "{$minutes}m";
-        if ($seconds > 0) $parts[] = "{$seconds}s";
+        if ($hours > 0) {
+            $parts[] = "{$hours}h";
+        }
+        if ($minutes > 0) {
+            $parts[] = "{$minutes}m";
+        }
+        if ($seconds > 0) {
+            $parts[] = "{$seconds}s";
+        }
 
         return implode(' ', $parts) ?: '0s';
     }
