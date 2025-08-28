@@ -20,6 +20,7 @@ class EmailerServiceProvider extends PackageServiceProvider
             ->name('emailer')
             ->hasConfigFile()
             ->hasViews()
+<<<<<<< HEAD
             ->hasMigrations([
                 'create_emailer_message_types_table',
                 'create_emailer_messages_table',
@@ -27,6 +28,15 @@ class EmailerServiceProvider extends PackageServiceProvider
                 'create_emailer_message_delivery_tracking_table',
                 'create_emailer_message_delivery_links_table',
                 'create_emailer_message_delivery_stats_table',
+=======
+                        ->hasMigrations([
+                '2024_01_01_000001_create_emailer_message_types_table',
+                '2024_01_01_000002_create_emailer_messages_table',
+                '2024_01_01_000003_create_emailer_message_deliveries_table',
+                '2024_01_01_000004_create_emailer_message_delivery_tracking_table',
+                '2024_01_01_000005_create_emailer_message_delivery_links_table',
+                '2024_01_01_000006_create_emailer_message_delivery_stats_table'
+>>>>>>> 7e388c4 (Fix: Correct migration file names in ServiceProvider)
             ])
             ->hasCommands([
                 SendPendingMessagesCommand::class,
